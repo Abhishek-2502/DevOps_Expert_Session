@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flask-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: flask
+  template:
+    metadata:
+      labels:
+        app: flask
+    spec:
+      containers:
+        - name: flask
+          image: abhi25022004/flask-lab:latest
+          imagePullPolicy: IfNotPresent # use IfNotPresent for local testing
+          ports:
+            - containerPort: 5000
+          readinessProbe: # optional but helpful for demos
+            httpGet:
+              path: /
+              port: 5000
+            initialDelaySeconds: 5
+            periodSeconds: 5
